@@ -55,13 +55,13 @@ require "trac4r/error"
 # 
 module Trac
   # returns a new instance of Trac::Base
-  def self.new url, user=nil,pass=nil
-    Base.new url,user,pass
+  def self.new url, user=nil,pass=nil, proxy_host=nil, proxy_port=nil
+    Base.new url,user,pass,proxy_host,proxy_port
   end
   
   class Base
     attr_reader :wiki, :tickets, :user, :pass
-    def initialize url,user,pass
+    def initialize url,user,pass,proxy_host,proxy_port
       @user = user
       @pass = pass
       @url = url
@@ -69,7 +69,7 @@ module Trac
       if @url.split('/').last != 'xmlrpc'
         @url = url+'/xmlrpc'
       end
-      @connection = Query.new(@url,@user,@pass)
+      @connection = Query.new(@url,@user,@pass,proxy_host,proxy_port)
       @wiki = Wiki.new(@connection)
       @tickets = Tickets.new(@connection)
     end

@@ -26,7 +26,7 @@ require 'xmlrpc/client'
 
 module Trac
   class Query
-    def initialize url,user,pass
+    def initialize url,user,pass,proxy_host,proxy_port
       if user && pass
         url = url.sub 'xmlrpc','login/xmlrpc'
       end
@@ -38,8 +38,8 @@ module Trac
       @connection = XMLRPC::Client.new(@host,
                                        @path,
                                        @port,
-                                       nil,
-                                       nil,
+                                       proxy_host,
+                                       proxy_port,
                                        user,
                                        pass,
                                        use_ssl,
